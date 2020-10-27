@@ -1,0 +1,93 @@
+html {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  border-color: black;
+  border: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+nav {
+  background-color: #1F1F3D;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: grid;
+  grid-template-rows: 50px 100px auto;
+}
+
+.title {
+  color: #ffffff;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.filter-starred-ideas {
+  color: #E9E9F3;
+  border-color: #353567;
+  border-width: 5px;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.show-starred-ideas {
+  background-color: #5356A4;
+  color: #E9E9F3;
+  border: 0.1em solid #353567;
+  outline: none;
+  border-radius: 0.2em;
+  margin: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  width: 15em;
+}
+
+.input-fields {
+  background-color: #A9AAD2;
+  grid-column-start: 2;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.title-input{
+  align-self: center;
+}
+.body-input{
+  align-self: center;
+}
+.save-button {
+  background-color: #1F1F3D;
+  border-radius: 0.25em;
+  color: #E9E9F3;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 50%;
+  align-self: center;
+}
+.search-ideas {
+  align-self: center;
+}
+
+.idea-grid {
+  background-color: #EAEAF4;
+  grid-column-start: 2;
+  grid-column-end: 5;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+/*
