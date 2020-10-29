@@ -158,10 +158,11 @@ nav {
   justify-content: space-between;
 }
 .star,
-.delete{
+.delete {
   max-width: 25px;
   max-height: 25px;
 }
+
 
 .display-idea-area {
     display: flex;
@@ -206,5 +207,9 @@ nav {
   flex-basis: 10%;
 }
 
+.comment {
+  min-width: 40px;
+  min-height: 40px;
+}
 
 /*
