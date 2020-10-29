@@ -13,6 +13,8 @@ var ideaGrid = document.querySelector('.idea-grid');
 
 
 savedButton.addEventListener('click', gatherIdeas);
+titleInput.addEventListener('keyup', enableButton);
+bodyInput.addEventListener('keyup', enableButton);
 
 
 function gatherIdeas() {
@@ -67,11 +69,10 @@ function clearInputs() {
     bodyInput.value = "";
 }
 
-function enableButton() {
-    if (titleInput.value !== "" || bodyInput.value !== "") {
+function enableButton(event) {
+    if (titleInput.value !== "" && bodyInput.value !== "") {
         savedButton.disabled = false;
     } else {
         savedButton.disabled = true;
     }
-
 }
