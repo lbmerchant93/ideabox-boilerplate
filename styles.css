@@ -168,10 +168,15 @@ nav {
     border-radius: 0.2em;
     height: 25px;
     width: 50%;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+}
+
+.hidden {
+  display: none;
 }
 
 .star,
+.star-active,
 .delete {
     max-width: 25px;
     max-height: 25px;

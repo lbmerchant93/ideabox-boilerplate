@@ -8,7 +8,7 @@ var savedButton = document.querySelector('.save-button');
 var titleInput = document.querySelector('.title-input');
 var bodyInput = document.querySelector('.body-input');
 var ideaGrid = document.querySelector('.idea-grid');
-
+var favoriteIdea = document.querySelector('.favorite-idea');
 
 
 // addEventListeners:
@@ -16,6 +16,8 @@ savedButton.addEventListener('click', gatherIdeas);
 titleInput.addEventListener('keyup', enableButton);
 bodyInput.addEventListener('keyup', enableButton);
 ideaGrid.addEventListener('click', deleteIdea);
+ideaGrid.addEventListener('click', favoriteIdeas);
+
 
 
 // event handlers and funcitons:
@@ -39,8 +41,9 @@ function displayIdeas() {
     ideaGrid.innerHTML += `
         <section class="idea-example">
             <div class="favorite-delete">
-                <button class="favorite-idea">
-        <img class="star" src="" alt="Star Icon">
+                <button id="favorite-idea" class="favorite-idea">
+        <img class="star" src="assets/star.svg" alt="Star Icon">
+          <img class="star-active hidden" src="assets/star-active.svg" alt="Active Star Icon">
       </button>
                 <button id=${ideas[i].id} class="delete-idea">
         <img id=${ideas[i].id} class="delete" src="assets/delete.svg" alt="Delete Icon">
@@ -87,14 +90,24 @@ function remove() {
   };
 };
 
+// function testing(event) {
+//   testing(event);
+//   showHide(starActive, star);
+//}
+function showHide(show, hide) {
+  show.classList.remove('hidden');
+  hide.classList.add('hidden');
+}
 
-
-//when click on delete button (X) remove the target(idea) from the array, return updated array
-// parent.addEventListener('click', function(event) {
-//   if (event.target.className === 'click-me') {
-//     showAlert();
-//   }
-// });
+function favoriteIdeas(event) {
+  for (var i = 0; i < ideas.length; i++) {
+    if (event.target.id === `favorite-idea`) {
+      var star = document.querySelector('.star');
+      var starActive = document.querySelector('.star-active');
+      showHide(starActive, star);
+    };
+  };
+}
 
 //click the "Star" button (favorite) on an idea card, the button was an outline of a star (not favorited), the button should now be a filled in star (favorited) -> hidden class??
 
