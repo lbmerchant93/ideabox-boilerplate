@@ -4,7 +4,7 @@ var currentIdea;
 
 
 // querySelectors:
-var savedButton = document.querySelector('.save-button');
+var saveButton = document.querySelector('.save-button');
 var titleInput = document.querySelector('.title-input');
 var bodyInput = document.querySelector('.body-input');
 var ideaGrid = document.querySelector('.idea-grid');
@@ -12,41 +12,57 @@ var favoriteIdea = document.querySelector('.favorite-idea');
 
 
 // addEventListeners:
-savedButton.addEventListener('click', gatherIdeas);
+saveButton.addEventListener('click', gatherIdeas);
 titleInput.addEventListener('keyup', enableButton);
 bodyInput.addEventListener('keyup', enableButton);
-ideaGrid.addEventListener('click', deleteIdea);
-ideaGrid.addEventListener('click', favoriteIdeas);
+ideaGrid.addEventListener('click', alterIdea);
 
 
 
 // event handlers and funcitons:
+function showHide(show, hide) {
+  show.classList.remove('hidden');
+  hide.classList.add('hidden');
+}
+
+function addClickableHoverEffects(enable, addHoverEffects) {
+  enable.classList.remove('disabled');
+  addHoverEffects.classList.add('hover-effects');
+}
+
+function removeClickableHoverEffects(removeHoverEffects, disable) {
+  removeHoverEffects.classList.remove('hover-effects');
+  disable.classList.add('disabled');
+}
+
 function gatherIdeas() {
   enableButton();
   saveIdea();
   displayIdeas();
   clearInputs();
+  enableButton();
 };
 
 function saveIdea() {
   var newTitle = titleInput.value;
   var newBody = bodyInput.value;
   currentIdea = new Idea(newTitle, newBody);
-  ideas.push(currentIdea);
+  ideas.unshift(currentIdea);
+  console.log(ideas);
 };
 
 function displayIdeas() {
   ideaGrid.innerHTML = "";
   for (var i = 0; i < ideas.length; i++) {
     ideaGrid.innerHTML += `
-        <section class="idea-example">
+         <section class="idea-example">
             <div class="favorite-delete">
-                <button id="favorite-idea" class="favorite-idea">
-        <img class="star" src="assets/star.svg" alt="Star Icon">
-          <img class="star-active hidden" src="assets/star-active.svg" alt="Active Star Icon">
+                <button id=${ideas[i].id} class="favorite-idea favorite">
+        <img id=${ideas[i].id} class="star favorite" src="assets/star.svg" alt="Star Icon">
+          <img id=${ideas[i].id} class="star-active favorite hidden" src="assets/star-active.svg" alt="Active Star Icon">
       </button>
-                <button id=${ideas[i].id} class="delete-idea">
-        <img id=${ideas[i].id} class="delete" src="assets/delete.svg" alt="Delete Icon">
+                <button id=${ideas[i].id} class="delete-idea x-button">
+        <img id=${ideas[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Icon">
       </button>
             </div>
             <div class="display-idea-area">
@@ -67,19 +83,29 @@ function displayIdeas() {
 function clearInputs() {
   titleInput.value = "";
   bodyInput.value = "";
+  removeClickableHoverEffects(saveButton, saveButton);
 };
 
 function enableButton(event) {
   if (titleInput.value !== "" && bodyInput.value !== "") {
-    savedButton.disabled = false;
+    saveButton.disabled = false;
+    addClickableHoverEffects(saveButton, saveButton);
   } else {
-    savedButton.disabled = true;
+    saveButton.disabled = true;
   };
 };
 
 function deleteIdea(event) {
   remove();
   displayIdeas();
+};
+
+function alterIdea(event) {
+  if (event.target.classList.contains(`x-button`)) {
+    deleteIdea();
+  } else if (event.target.classList.contains(`favorite`)) {
+    toggleStar();
+  };
 };
 
 function remove() {
@@ -90,27 +116,30 @@ function remove() {
   };
 };
 
-// function testing(event) {
-//   testing(event);
-//   showHide(starActive, star);
-//}
-function showHide(show, hide) {
-  show.classList.remove('hidden');
-  hide.classList.add('hidden');
-}
 
-function favoriteIdeas(event) {
+function toggleStar() {
+  var star = document.querySelectorAll('.star');
+  var starActive = document.querySelectorAll('.star-active');
   for (var i = 0; i < ideas.length; i++) {
-    if (event.target.id === `favorite-idea`) {
-      var star = document.querySelector('.star');
-      var starActive = document.querySelector('.star-active');
-      showHide(starActive, star);
+    if (event.target.id === `${ideas[i].id}` && ideas[i].star === false) {
+      ideas[i].star = true;
+      showHide(starActive[i], star[i]);
+    } else if (event.target.id === `${ideas[i].id}` && ideas[i].star === true) {
+      ideas[i].star = false;
+      showHide(star[i], starActive[i]);
     };
-  };
+  }
 }
-
-//click the "Star" button (favorite) on an idea card, the button was an outline of a star (not favorited), the button should now be a filled in star (favorited) -> hidden class??
-
+// function unfavoriteIdeas(event) {
+//   for (var i = 0; i < ideas.length; i++) {
+//     if (event.target.id === `favorite-idea`) {
+//       var star = document.querySelector('.star');
+//       var starActive = document.querySelector('.star-active');
+//       toggleHidden(starActive);
+//       toggleHidden(star);
+//     };
+//   };
+// }
 
 //click the "Star" button on an idea card the button was a filled in star (favorited) the button should now be an outline of a star (not favorited) -> toggle between two images for button??
 

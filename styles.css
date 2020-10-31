@@ -105,10 +105,18 @@ nav {
     padding-bottom: 0.5em;
 }
 
-.save-button:hover {
-    background-color: #5356A4;
+.hover-effects:hover {
     cursor: pointer;
 }
+
+.disabled{
+  background-color: grey;
+}
+
+.disabled:hover {
+  cursor: default;
+}
+
 
 .search {
     grid-row: 6 / 7;
