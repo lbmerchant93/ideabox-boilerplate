@@ -12,6 +12,7 @@ var favoriteIdea = document.querySelector('.favorite-idea');
 
 
 // addEventListeners:
+window.addEventListener('load', showIdeas);
 saveButton.addEventListener('click', gatherIdeas);
 titleInput.addEventListener('keyup', enableButton);
 bodyInput.addEventListener('keyup', enableButton);
@@ -21,40 +22,51 @@ ideaGrid.addEventListener('click', alterIdea);
 
 // event handlers and funcitons:
 function showHide(show, hide) {
-  show.classList.remove('hidden');
-  hide.classList.add('hidden');
+    show.classList.remove('hidden');
+    hide.classList.add('hidden');
 }
 
 function addClickableHoverEffects(enable, addHoverEffects) {
-  enable.classList.remove('disabled');
-  addHoverEffects.classList.add('hover-effects');
+    enable.classList.remove('disabled');
+    addHoverEffects.classList.add('hover-effects');
 }
 
 function removeClickableHoverEffects(removeHoverEffects, disable) {
-  removeHoverEffects.classList.remove('hover-effects');
-  disable.classList.add('disabled');
+    removeHoverEffects.classList.remove('hover-effects');
+    disable.classList.add('disabled');
 }
 
 function gatherIdeas() {
-  enableButton();
-  saveIdea();
-  displayIdeas();
-  clearInputs();
-  enableButton();
+    enableButton();
+    saveIdea();
+    displayIdeas();
+    clearInputs();
+    enableButton();
 };
 
-function saveIdea() {
-  var newTitle = titleInput.value;
-  var newBody = bodyInput.value;
-  currentIdea = new Idea(newTitle, newBody);
-  ideas.unshift(currentIdea);
-  console.log(ideas);
+function saveIdea(idea) {
+    var newTitle = titleInput.value;
+    var newBody = bodyInput.value;
+    currentIdea = new Idea(newTitle, newBody);
+    ideas.unshift(currentIdea);
+    currentIdea.saveToStorage(ideas)
+
 };
+
+function showIdeas() {
+    var getLocal = localStorage.getItem("idea-cards");
+    ideas = JSON.parse(getLocal);
+    displayIdeas();
+
+}
+
+
+
 
 function displayIdeas() {
-  ideaGrid.innerHTML = "";
-  for (var i = 0; i < ideas.length; i++) {
-    ideaGrid.innerHTML += `
+    ideaGrid.innerHTML = "";
+    for (var i = 0; i < ideas.length; i++) {
+        ideaGrid.innerHTML += `
          <section class="idea-example">
             <div class="favorite-delete">
                 <button id=${ideas[i].id} class="favorite-idea favorite">
@@ -77,58 +89,58 @@ function displayIdeas() {
             </div>
         </section>
     `
-  };
+    };
 };
 
 function clearInputs() {
-  titleInput.value = "";
-  bodyInput.value = "";
-  removeClickableHoverEffects(saveButton, saveButton);
+    titleInput.value = "";
+    bodyInput.value = "";
+    removeClickableHoverEffects(saveButton, saveButton);
 };
 
 function enableButton(event) {
-  if (titleInput.value !== "" && bodyInput.value !== "") {
-    saveButton.disabled = false;
-    addClickableHoverEffects(saveButton, saveButton);
-  } else {
-    saveButton.disabled = true;
-  };
+    if (titleInput.value !== "" && bodyInput.value !== "") {
+        saveButton.disabled = false;
+        addClickableHoverEffects(saveButton, saveButton);
+    } else {
+        saveButton.disabled = true;
+    };
 };
 
 function deleteIdea(event) {
-  remove();
-  displayIdeas();
+    remove();
+    displayIdeas();
 };
 
 function alterIdea(event) {
-  if (event.target.classList.contains(`x-button`)) {
-    deleteIdea();
-  } else if (event.target.classList.contains(`favorite`)) {
-    toggleStar();
-  };
+    if (event.target.classList.contains(`x-button`)) {
+        deleteIdea();
+    } else if (event.target.classList.contains(`favorite`)) {
+        toggleStar();
+    };
 };
 
 function remove() {
-  for (var i = 0; i < ideas.length; i++) {
-    if (event.target.id === `${ideas[i].id}`) {
-      ideas.splice(i, 1);
+    for (var i = 0; i < ideas.length; i++) {
+        if (event.target.id === `${ideas[i].id}`) {
+            ideas.splice(i, 1);
+        };
     };
-  };
 };
 
 
 function toggleStar() {
-  var star = document.querySelectorAll('.star');
-  var starActive = document.querySelectorAll('.star-active');
-  for (var i = 0; i < ideas.length; i++) {
-    if (event.target.id === `${ideas[i].id}` && ideas[i].star === false) {
-      ideas[i].star = true;
-      showHide(starActive[i], star[i]);
-    } else if (event.target.id === `${ideas[i].id}` && ideas[i].star === true) {
-      ideas[i].star = false;
-      showHide(star[i], starActive[i]);
-    };
-  }
+    var star = document.querySelectorAll('.star');
+    var starActive = document.querySelectorAll('.star-active');
+    for (var i = 0; i < ideas.length; i++) {
+        if (event.target.id === `${ideas[i].id}` && ideas[i].star === false) {
+            ideas[i].star = true;
+            showHide(starActive[i], star[i]);
+        } else if (event.target.id === `${ideas[i].id}` && ideas[i].star === true) {
+            ideas[i].star = false;
+            showHide(star[i], starActive[i]);
+        };
+    }
 }
 // function unfavoriteIdeas(event) {
 //   for (var i = 0; i < ideas.length; i++) {
@@ -141,11 +153,4 @@ function toggleStar() {
 //   };
 // }
 
-//click the "Star" button on an idea card the button was a filled in star (favorited) the button should now be an outline of a star (not favorited) -> toggle between two images for button??
-
-
-//when I delete or favorite any card I should not see the page reload
-
-
-
-///
+//

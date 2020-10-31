@@ -5,9 +5,12 @@ class Idea {
         this.body = body;
         this.star = false;
     }
-    saveToStorage() {
 
+    saveToStorage(array) {
+        var stringifiedCards = JSON.stringify(array);
+        var saveLocal = localStorage.setItem("idea-cards", stringifiedCards)
     };
+
 
     deleteFromStorage() {
 
