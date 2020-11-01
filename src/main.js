@@ -41,22 +41,33 @@ function gatherIdeas() {
     saveIdea();
     displayIdeas();
     clearInputs();
+    // updateStorage();
     enableButton();
 };
 
-function saveIdea(idea) {
+function saveIdea() {
     var newTitle = titleInput.value;
     var newBody = bodyInput.value;
     currentIdea = new Idea(newTitle, newBody);
     ideas.unshift(currentIdea);
-    currentIdea.saveToStorage(ideas)
+    currentIdea.saveToStorage()
 
 };
 
+// function updateStorage() {
+//     currentIdea.saveToStorage(ideas)
+
+// }
+
 function showIdeas() {
-    var getLocal = localStorage.getItem("idea-cards");
-    ideas = JSON.parse(getLocal);
-    displayIdeas();
+    var getLocal = localStorage.getItem("ideas");
+    if (getLocal) {
+        ideas = JSON.parse(getLocal);
+        displayIdeas();
+    } else {
+        ideaGrid.innerHTML = "";
+    }
+
 
 }
 
@@ -110,6 +121,7 @@ function enableButton(event) {
 function deleteIdea(event) {
     remove();
     displayIdeas();
+    // updateStorage();
 };
 
 function alterIdea(event) {
@@ -120,10 +132,13 @@ function alterIdea(event) {
     };
 };
 
-function remove() {
+function remove(idea) {
     for (var i = 0; i < ideas.length; i++) {
         if (event.target.id === `${ideas[i].id}`) {
+            console.log(currentIdea)
+            idea.deleteFromStorage(ideas[i])
             ideas.splice(i, 1);
+
         };
     };
 };

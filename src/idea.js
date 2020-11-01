@@ -6,15 +6,30 @@ class Idea {
         this.star = false;
     }
 
-    saveToStorage(array) {
-        var stringifiedCards = JSON.stringify(array);
-        var saveLocal = localStorage.setItem("idea-cards", stringifiedCards)
-    };
-
-
-    deleteFromStorage() {
+    saveToStorage() {
+        var stringifiedCards = JSON.stringify(this);
+        localStorage.setItem("ideas", stringifiedCards);
 
     };
+
+
+
+    // saveToStorage(array) {
+    //     var stringifiedCards = JSON.stringify(this);
+    //     // array.push(localStorage.setItem(`${this.id}`, stringifiedCards))
+    //     var example = localStorage.setItem(`${this.id}`, stringifiedCards)
+    //     array.push(example)
+    // };
+
+
+    deleteFromStorage(id) {
+        localStorage.removeItem(id)
+    }
+
+
+
+
+
 
     updateIdea() {
 
