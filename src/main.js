@@ -12,7 +12,7 @@ var favoriteIdea = document.querySelector('.favorite-idea');
 
 
 // addEventListeners:
-window.addEventListener('load', showIdeas);
+// window.addEventListener('load', showIdeas);
 saveButton.addEventListener('click', gatherIdeas);
 titleInput.addEventListener('keyup', enableButton);
 bodyInput.addEventListener('keyup', enableButton);
@@ -22,35 +22,36 @@ ideaGrid.addEventListener('click', alterIdea);
 
 // event handlers and funcitons:
 function showHide(show, hide) {
-    show.classList.remove('hidden');
-    hide.classList.add('hidden');
-}
+  show.classList.remove('hidden');
+  hide.classList.add('hidden');
+};
 
 function addClickableHoverEffects(enable, addHoverEffects) {
-    enable.classList.remove('disabled');
-    addHoverEffects.classList.add('hover-effects');
-}
+  enable.classList.remove('disabled');
+  addHoverEffects.classList.add('hover-effects');
+};
 
 function removeClickableHoverEffects(removeHoverEffects, disable) {
-    removeHoverEffects.classList.remove('hover-effects');
-    disable.classList.add('disabled');
-}
+  removeHoverEffects.classList.remove('hover-effects');
+  disable.classList.add('disabled');
+};
 
 function gatherIdeas() {
-    enableButton();
-    saveIdea();
-    displayIdeas();
-    clearInputs();
-    // updateStorage();
-    enableButton();
+  enableButton();
+  saveIdea();
+  displayIdeas();
+  keepFavorited();
+  clearInputs();
+  // updateStorage();
+  enableButton();
 };
 
 function saveIdea() {
-    var newTitle = titleInput.value;
-    var newBody = bodyInput.value;
-    currentIdea = new Idea(newTitle, newBody);
-    ideas.unshift(currentIdea);
-    currentIdea.saveToStorage()
+  var newTitle = titleInput.value;
+  var newBody = bodyInput.value;
+  currentIdea = new Idea(newTitle, newBody);
+  ideas.unshift(currentIdea);
+  // currentIdea.saveToStorage()
 
 };
 
@@ -59,104 +60,104 @@ function saveIdea() {
 
 // }
 
-function showIdeas() {
-    var getLocal = localStorage.getItem("ideas");
-    if (getLocal) {
-        ideas = JSON.parse(getLocal);
-        displayIdeas();
-    } else {
-        ideaGrid.innerHTML = "";
-    }
-
-
-}
-
-
+// function showIdeas() {
+//   var getLocal = localStorage.getItem("ideas");
+//   if (getLocal) {
+//     ideas = JSON.parse(getLocal);
+//     displayIdeas();
+//   } else {
+//     ideaGrid.innerHTML = "";
+//   }
+// }
 
 
 function displayIdeas() {
-    ideaGrid.innerHTML = "";
-    for (var i = 0; i < ideas.length; i++) {
-        ideaGrid.innerHTML += `
-         <section class="idea-example">
+  ideaGrid.innerHTML = "";
+  for (var i = 0; i < ideas.length; i++) {
+    ideaGrid.innerHTML += `
+         <section class="idividual-idea">
             <div class="favorite-delete">
-                <button id=${ideas[i].id} class="favorite-idea favorite">
         <img id=${ideas[i].id} class="star favorite" src="assets/star.svg" alt="Star Icon">
           <img id=${ideas[i].id} class="star-active favorite hidden" src="assets/star-active.svg" alt="Active Star Icon">
-      </button>
-                <button id=${ideas[i].id} class="delete-idea x-button">
         <img id=${ideas[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Icon">
-      </button>
             </div>
             <div class="display-idea-area">
                 <h3 class="idea-title">${ideas[i].title}</h3>
                 <h5 class="idea-body">${ideas[i].body}</h5>
             </div>
             <div class="add-comment">
-                <button class="comment-button" name="comment">
-        <img class="comment" src="" alt="Add comment icon">
-      </button>
+        <img class="comment" src="assets/comment.svg" alt="Add comment icon">
                 <label class="comment-label" for="comment">comment</label>
             </div>
         </section>
     `
-    };
+  };
 };
 
+
 function clearInputs() {
-    titleInput.value = "";
-    bodyInput.value = "";
-    removeClickableHoverEffects(saveButton, saveButton);
+  titleInput.value = "";
+  bodyInput.value = "";
+  removeClickableHoverEffects(saveButton, saveButton);
 };
 
 function enableButton(event) {
-    if (titleInput.value !== "" && bodyInput.value !== "") {
-        saveButton.disabled = false;
-        addClickableHoverEffects(saveButton, saveButton);
-    } else {
-        saveButton.disabled = true;
-    };
+  if (titleInput.value !== "" && bodyInput.value !== "") {
+    saveButton.disabled = false;
+    addClickableHoverEffects(saveButton, saveButton);
+  } else {
+    saveButton.disabled = true;
+  };
 };
 
 function deleteIdea(event) {
-    remove();
-    displayIdeas();
-    // updateStorage();
+  remove();
+  displayIdeas();
+  keepFavorited();
+  // updateStorage();
 };
 
 function alterIdea(event) {
-    if (event.target.classList.contains(`x-button`)) {
-        deleteIdea();
-    } else if (event.target.classList.contains(`favorite`)) {
-        toggleStar();
-    };
+  if (event.target.classList.contains(`x-button`)) {
+    deleteIdea();
+  } else if (event.target.classList.contains(`favorite`)) {
+    toggleStar();
+  };
 };
 
 function remove(idea) {
-    for (var i = 0; i < ideas.length; i++) {
-        if (event.target.id === `${ideas[i].id}`) {
-            console.log(currentIdea)
-            idea.deleteFromStorage(ideas[i])
-            ideas.splice(i, 1);
-
-        };
+  for (var i = 0; i < ideas.length; i++) {
+    if (event.target.id === `${ideas[i].id}`) {
+      // idea.deleteFromStorage(ideas[i])
+      ideas.splice(i, 1);
     };
+  };
 };
 
 
 function toggleStar() {
-    var star = document.querySelectorAll('.star');
-    var starActive = document.querySelectorAll('.star-active');
-    for (var i = 0; i < ideas.length; i++) {
-        if (event.target.id === `${ideas[i].id}` && ideas[i].star === false) {
-            ideas[i].star = true;
-            showHide(starActive[i], star[i]);
-        } else if (event.target.id === `${ideas[i].id}` && ideas[i].star === true) {
-            ideas[i].star = false;
-            showHide(star[i], starActive[i]);
-        };
-    }
-}
+  var star = document.querySelectorAll('.star');
+  var starActive = document.querySelectorAll('.star-active');
+  for (var i = 0; i < ideas.length; i++) {
+    if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === false) {
+      ideas[i].isStarred = true;
+      showHide(starActive[i], star[i]);
+    } else if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === true) {
+      ideas[i].isStarred = false;
+      showHide(star[i], starActive[i]);
+    };
+  };
+};
+
+function keepFavorited() {
+  var star = document.querySelectorAll('.star');
+  var starActive = document.querySelectorAll('.star-active');
+  for (var i = 0; i < ideas.length; i++) {
+    if (ideas[i].isStarred === true) {
+      showHide(starActive[i], star[i]);
+    };
+  };
+};
 // function unfavoriteIdeas(event) {
 //   for (var i = 0; i < ideas.length; i++) {
 //     if (event.target.id === `favorite-idea`) {
