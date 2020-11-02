@@ -75,7 +75,7 @@ function displayIdeas() {
   ideaGrid.innerHTML = "";
   for (var i = 0; i < ideas.length; i++) {
     ideaGrid.innerHTML += `
-         <section class="idividual-idea">
+         <section class="individual-idea">
             <div class="favorite-delete">
         <img id=${ideas[i].id} class="star favorite" src="assets/star.svg" alt="Star Icon">
           <img id=${ideas[i].id} class="star-active favorite hidden" src="assets/star-active.svg" alt="Active Star Icon">
