@@ -135,7 +135,7 @@ function alterIdea(event) {
 function remove(idea) {
     for (var i = 0; i < ideas.length; i++) {
         if (event.target.id === `${ideas[i].id}`) {
-             ideas[i].deleteFromStorage();s
+             ideas[i].deleteFromStorage();
             ideas.splice(i, 1);
         };
     };

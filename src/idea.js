@@ -11,8 +11,8 @@ class Idea {
         localStorage.setItem(`${this.id}`, stringifiedCards);
     }
 
-    deleteFromStorage(id) {
-        localStorage.removeItem(id)
+    deleteFromStorage() {
+        localStorage.removeItem(`${this.id}`)
     }
 
     updateIdea() {
