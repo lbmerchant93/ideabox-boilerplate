@@ -112,7 +112,8 @@ function enableSaveButton(event) {
 
 function deleteIdea(event) {
   remove();
-  displayIdeas(ideas);
+  gatherStarredIdeas();
+  displayCurrentIdeas();
 };
 
 function alterIdea(event) {
