@@ -1,6 +1,7 @@
 // global variables:
 var ideas = [];
 var currentIdea;
+// var ideas = [];
 
 
 // querySelectors:
@@ -9,14 +10,16 @@ var titleInput = document.querySelector('.title-input');
 var bodyInput = document.querySelector('.body-input');
 var ideaGrid = document.querySelector('.idea-grid');
 var favoriteIdea = document.querySelector('.favorite-idea');
+var showStarredIdeas = document.querySelector('.show-starred-ideas');
 
 
 // addEventListeners:
 window.addEventListener('load', showIdeas);
 saveButton.addEventListener('click', gatherIdeas);
-titleInput.addEventListener('keyup', enableButton);
-bodyInput.addEventListener('keyup', enableButton);
+titleInput.addEventListener('keyup', enableSaveButton);
+bodyInput.addEventListener('keyup', enableSaveButton);
 ideaGrid.addEventListener('click', alterIdea);
+showStarredIdeas.addEventListener('click', displayStarredIdeas);
 
 
 
@@ -37,12 +40,12 @@ function removeClickableHoverEffects(removeHoverEffects, disable) {
 };
 
 function gatherIdeas() {
-  enableButton();
+  enableSaveButton();
   saveIdea();
   displayIdeas();
   keepFavorited();
   clearInputs();
-  enableButton();
+  enableSaveButton();
 };
 
 function saveIdea() {
@@ -91,6 +94,8 @@ function displayIdeas() {
         </section>
     `
   };
+  star = document.querySelectorAll('.star');
+  starActive = document.querySelectorAll('.star-active');
 };
 
 
@@ -100,7 +105,7 @@ function clearInputs() {
   removeClickableHoverEffects(saveButton, saveButton);
 };
 
-function enableButton(event) {
+function enableSaveButton(event) {
   if (titleInput.value !== "" && bodyInput.value !== "") {
     saveButton.disabled = false;
     addClickableHoverEffects(saveButton, saveButton);
@@ -132,21 +137,37 @@ function remove(idea) {
   };
 };
 
+var star;
+var starActive;
 
 function toggleStar() {
-  var star = document.querySelectorAll('.star');
-  var starActive = document.querySelectorAll('.star-active');
+  // star = document.querySelectorAll('.star');
+  // starActive = document.querySelectorAll('.star-active');
+  // var starIdeas = [];
   for (var i = 0; i < ideas.length; i++) {
     if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === false) {
       ideas[i].isStarred = true;
+      // starIdeas.push(ideas[i]);
       showHide(starActive[i], star[i]);
     } else if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === true) {
       ideas[i].isStarred = false;
+      console.log(star[i]);
       showHide(star[i], starActive[i]);
+      //working here
+      console.log('done');
     };
-          ideas[i].saveToStorage();
+    ideas[i].saveToStorage();
   };
-};
+//   for (var i = 0; i < starIdeas.length; i++) {
+//     if (event.target.id === `${starIdeas[i].id}` && starIdeas[i].isStarred === true) {
+//       console.log(starIdeas);
+//       starIdeas[i].isStarred = false;
+//       starIdeas.splice(i, 1);
+//       // console.log(starActive.length);
+//       showHide(star[i], starActive[i]);
+//   }
+// };
+}
 
 function keepFavorited() {
   var star = document.querySelectorAll('.star');
@@ -157,3 +178,39 @@ function keepFavorited() {
     };
   };
 };
+
+//
+
+
+
+
+function displayStarredIdeas() {
+  ideaGrid.innerHTML = "";
+  for (var i = 0; i < ideas.length; i++) {
+    if (ideas[i].isStarred === true) {
+      ideaGrid.innerHTML += `
+      <section class="individual-idea">
+         <div class="favorite-delete">
+     <img id=${ideas[i].id} class="star favorite hidden" src="assets/star.svg" alt="Star Icon">
+       <img id=${ideas[i].id} class="star-active favorite" src="assets/star-active.svg" alt="Active Star Icon">
+     <img id=${ideas[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Icon">
+         </div>
+         <div class="display-idea-area">
+             <h3 class="idea-title">${ideas[i].title}</h3>
+             <h5 class="idea-body">${ideas[i].body}</h5>
+         </div>
+         <div class="add-comment">
+     <img class="comment" src="assets/comment.svg" alt="Add comment icon">
+             <label class="comment-label" for="comment">comment</label>
+         </div>
+     </section>
+     `
+    }
+  };
+};
+
+
+
+
+
+////

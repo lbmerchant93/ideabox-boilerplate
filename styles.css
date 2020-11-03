@@ -191,8 +191,7 @@ nav {
   display: none;
 }
 
-.star,
-.star-active,
+.favorite,
 .delete {
     max-width: 1.5625em;
     max-height: 1.5625em;
