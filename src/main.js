@@ -12,7 +12,7 @@ var favoriteIdea = document.querySelector('.favorite-idea');
 
 
 // addEventListeners:
-// window.addEventListener('load', showIdeas);
+window.addEventListener('load', showIdeas);
 saveButton.addEventListener('click', gatherIdeas);
 titleInput.addEventListener('keyup', enableButton);
 bodyInput.addEventListener('keyup', enableButton);
@@ -22,36 +22,36 @@ ideaGrid.addEventListener('click', alterIdea);
 
 // event handlers and funcitons:
 function showHide(show, hide) {
-  show.classList.remove('hidden');
-  hide.classList.add('hidden');
+    show.classList.remove('hidden');
+    hide.classList.add('hidden');
 };
 
 function addClickableHoverEffects(enable, addHoverEffects) {
-  enable.classList.remove('disabled');
-  addHoverEffects.classList.add('hover-effects');
+    enable.classList.remove('disabled');
+    addHoverEffects.classList.add('hover-effects');
 };
 
 function removeClickableHoverEffects(removeHoverEffects, disable) {
-  removeHoverEffects.classList.remove('hover-effects');
-  disable.classList.add('disabled');
+    removeHoverEffects.classList.remove('hover-effects');
+    disable.classList.add('disabled');
 };
 
 function gatherIdeas() {
-  enableButton();
-  saveIdea();
-  displayIdeas();
-  keepFavorited();
-  clearInputs();
-  // updateStorage();
-  enableButton();
+    enableButton();
+    saveIdea();
+    displayIdeas();
+    keepFavorited();
+    clearInputs();
+    // updateStorage();
+    enableButton();
 };
 
 function saveIdea() {
-  var newTitle = titleInput.value;
-  var newBody = bodyInput.value;
-  currentIdea = new Idea(newTitle, newBody);
-  ideas.unshift(currentIdea);
-  // currentIdea.saveToStorage()
+    var newTitle = titleInput.value;
+    var newBody = bodyInput.value;
+    currentIdea = new Idea(Date.now(),newTitle, newBody, false);
+    ideas.unshift(currentIdea);
+    currentIdea.saveToStorage();
 
 };
 
@@ -60,21 +60,28 @@ function saveIdea() {
 
 // }
 
-// function showIdeas() {
-//   var getLocal = localStorage.getItem("ideas");
-//   if (getLocal) {
-//     ideas = JSON.parse(getLocal);
-//     displayIdeas();
-//   } else {
-//     ideaGrid.innerHTML = "";
-//   }
-// }
+function showIdeas() {
+    // console.log(localStorage)
+    for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        var storageIdea = JSON.parse(localStorage.getItem(key));
+        var storedId = storageIdea.id;
+        var storedTitle = storageIdea.title;
+        var storedBody = storageIdea.body;
+        var storedIsStarred = storageIdea.isStarred;
+
+        ideas.push(new Idea(storedId, storedTitle, storedBody, storedIsStarred));
+    }
+
+    displayIdeas();
+    keepFavorited();
+}
 
 
 function displayIdeas() {
-  ideaGrid.innerHTML = "";
-  for (var i = 0; i < ideas.length; i++) {
-    ideaGrid.innerHTML += `
+    ideaGrid.innerHTML = "";
+    for (var i = 0; i < ideas.length; i++) {
+        ideaGrid.innerHTML += `
          <section class="individual-idea">
             <div class="favorite-delete">
         <img id=${ideas[i].id} class="star favorite" src="assets/star.svg" alt="Star Icon">
@@ -91,72 +98,72 @@ function displayIdeas() {
             </div>
         </section>
     `
-  };
+    };
 };
 
 
 function clearInputs() {
-  titleInput.value = "";
-  bodyInput.value = "";
-  removeClickableHoverEffects(saveButton, saveButton);
+    titleInput.value = "";
+    bodyInput.value = "";
+    removeClickableHoverEffects(saveButton, saveButton);
 };
 
 function enableButton(event) {
-  if (titleInput.value !== "" && bodyInput.value !== "") {
-    saveButton.disabled = false;
-    addClickableHoverEffects(saveButton, saveButton);
-  } else {
-    saveButton.disabled = true;
-  };
+    if (titleInput.value !== "" && bodyInput.value !== "") {
+        saveButton.disabled = false;
+        addClickableHoverEffects(saveButton, saveButton);
+    } else {
+        saveButton.disabled = true;
+    };
 };
 
 function deleteIdea(event) {
-  remove();
-  displayIdeas();
-  keepFavorited();
-  // updateStorage();
+    remove();
+    displayIdeas();
+    keepFavorited();
+    // updateStorage();
 };
 
 function alterIdea(event) {
-  if (event.target.classList.contains(`x-button`)) {
-    deleteIdea();
-  } else if (event.target.classList.contains(`favorite`)) {
-    toggleStar();
-  };
+    if (event.target.classList.contains(`x-button`)) {
+        deleteIdea();
+    } else if (event.target.classList.contains(`favorite`)) {
+        toggleStar();
+    };
 };
 
 function remove(idea) {
-  for (var i = 0; i < ideas.length; i++) {
-    if (event.target.id === `${ideas[i].id}`) {
-      // idea.deleteFromStorage(ideas[i])
-      ideas.splice(i, 1);
+    for (var i = 0; i < ideas.length; i++) {
+        if (event.target.id === `${ideas[i].id}`) {
+            // idea.deleteFromStorage(ideas[i])
+            ideas.splice(i, 1);
+        };
     };
-  };
 };
 
 
 function toggleStar() {
-  var star = document.querySelectorAll('.star');
-  var starActive = document.querySelectorAll('.star-active');
-  for (var i = 0; i < ideas.length; i++) {
-    if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === false) {
-      ideas[i].isStarred = true;
-      showHide(starActive[i], star[i]);
-    } else if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === true) {
-      ideas[i].isStarred = false;
-      showHide(star[i], starActive[i]);
+    var star = document.querySelectorAll('.star');
+    var starActive = document.querySelectorAll('.star-active');
+    for (var i = 0; i < ideas.length; i++) {
+        if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === false) {
+            ideas[i].isStarred = true;
+            showHide(starActive[i], star[i]);
+        } else if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === true) {
+            ideas[i].isStarred = false;
+            showHide(star[i], starActive[i]);
+        };
     };
-  };
 };
 
 function keepFavorited() {
-  var star = document.querySelectorAll('.star');
-  var starActive = document.querySelectorAll('.star-active');
-  for (var i = 0; i < ideas.length; i++) {
-    if (ideas[i].isStarred === true) {
-      showHide(starActive[i], star[i]);
+    var star = document.querySelectorAll('.star');
+    var starActive = document.querySelectorAll('.star-active');
+    for (var i = 0; i < ideas.length; i++) {
+        if (ideas[i].isStarred === true) {
+            showHide(starActive[i], star[i]);
+        };
     };
-  };
 };
 // function unfavoriteIdeas(event) {
 //   for (var i = 0; i < ideas.length; i++) {
