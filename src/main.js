@@ -19,7 +19,7 @@ saveButton.addEventListener('click', gatherIdeas);
 titleInput.addEventListener('keyup', enableSaveButton);
 bodyInput.addEventListener('keyup', enableSaveButton);
 ideaGrid.addEventListener('click', alterIdea);
-showStarredIdeas.addEventListener('click', displayStarredIdeas);
+showStarredIdeas.addEventListener('click', displayStarredOrAllIdeas);
 
 
 
@@ -170,13 +170,17 @@ function gatherStarredIdeas() {
   };
 };
 
-function displayStarredIdeas() {
-  showingFavs = true;
+function displayStarredOrAllIdeas() {
+  showingFavs = !showingFavs
   gatherStarredIdeas();
   displayCurrentIdeas();
+
+  if (showingFavs === true) {
+    showStarredIdeas.innerText = `Show All Ideas`;
+  } else if (showingFavs === false) {
+    showStarredIdeas.innerText = `Show Starred Ideas`;
+  };
 };
-
-
 
 
 
