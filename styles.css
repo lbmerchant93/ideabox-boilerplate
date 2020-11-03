@@ -15,7 +15,6 @@ body {
 
 
 /*For menu and nav area*/
-
 nav {
     background-color: #1F1F3D;
     border-right: 0.09em solid #EAEAF4;
@@ -175,17 +174,6 @@ nav {
     max-height: 1.875em;
 }
 
-.delete-idea,
-.favorite-idea {
-    background-color: #1F1F3D;
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-    /* margin-bottom: 1em; */
-    border-radius: 0.2em;
-    height: 1.5625em;
-    width: 50%;
-    /* justify-content: space-between; */
-}
 
 .hidden {
   display: none;
