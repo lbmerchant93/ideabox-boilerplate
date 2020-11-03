@@ -70,7 +70,7 @@ function showIdeas() {
         var storedBody = storageIdea.body;
         var storedIsStarred = storageIdea.isStarred;
 
-        ideas.push(new Idea(storedId, storedTitle, storedBody, storedIsStarred));
+        ideas.unshift(new Idea(storedId, storedTitle, storedBody, storedIsStarred));
     }
 
     displayIdeas();
@@ -135,7 +135,7 @@ function alterIdea(event) {
 function remove(idea) {
     for (var i = 0; i < ideas.length; i++) {
         if (event.target.id === `${ideas[i].id}`) {
-            // idea.deleteFromStorage(ideas[i])
+             ideas[i].deleteFromStorage();s
             ideas.splice(i, 1);
         };
     };
