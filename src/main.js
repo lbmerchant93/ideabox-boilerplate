@@ -83,7 +83,7 @@ function displayIdeas(array) {
             </div>
             <div class="add-comment">
         <img class="comment" src="assets/comment.svg" alt="Add comment icon">
-                <label class="comment-label" for="comment">comment</label>
+                <label class="comment-label" for="comment">Comment</label>
             </div>
         </section>
     `
