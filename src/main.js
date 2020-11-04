@@ -1,79 +1,89 @@
 // global variables:
 var ideas = [];
 var currentIdea;
-
+var favIdeas = [];
+var showingFavs = false;
 
 // querySelectors:
 var saveButton = document.querySelector('.save-button');
 var titleInput = document.querySelector('.title-input');
 var bodyInput = document.querySelector('.body-input');
 var ideaGrid = document.querySelector('.idea-grid');
-var favoriteIdea = document.querySelector('.favorite-idea');
-
+var showStarredIdeas = document.querySelector('.show-starred-ideas');
+var searchIdeas = document.querySelector('.search-ideas');
 
 // addEventListeners:
+window.addEventListener('load', showIdeas);
 saveButton.addEventListener('click', gatherIdeas);
-titleInput.addEventListener('keyup', enableButton);
-bodyInput.addEventListener('keyup', enableButton);
+titleInput.addEventListener('keyup', enableSaveButton);
+bodyInput.addEventListener('keyup', enableSaveButton);
 ideaGrid.addEventListener('click', alterIdea);
-
-
+showStarredIdeas.addEventListener('click', displayStarredOrAllIdeas);
+searchIdeas.addEventListener('keyup', searchDisplayedIdeas);
 
 // event handlers and funcitons:
-function showHide(show, hide) {
-  show.classList.remove('hidden');
-  hide.classList.add('hidden');
-}
-
-function addClickableHoverEffects(enable, addHoverEffects) {
+function addClickableHoverEffects(enable) {
   enable.classList.remove('disabled');
-  addHoverEffects.classList.add('hover-effects');
-}
+  enable.classList.add('hover-effects');
+};
 
-function removeClickableHoverEffects(removeHoverEffects, disable) {
-  removeHoverEffects.classList.remove('hover-effects');
+function removeClickableHoverEffects(disable) {
+  disable.classList.remove('hover-effects');
   disable.classList.add('disabled');
-}
+};
 
 function gatherIdeas() {
-  enableButton();
+  enableSaveButton();
   saveIdea();
-  displayIdeas();
+  displayIdeas(ideas);
   clearInputs();
-  enableButton();
+  enableSaveButton();
 };
 
 function saveIdea() {
   var newTitle = titleInput.value;
   var newBody = bodyInput.value;
-  currentIdea = new Idea(newTitle, newBody);
+  currentIdea = new Idea(Date.now(), newTitle, newBody, false);
   ideas.unshift(currentIdea);
-  console.log(ideas);
+  currentIdea.saveToStorage();
 };
 
-function displayIdeas() {
+function showIdeas() {
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    var storageIdea = JSON.parse(localStorage.getItem(key));
+    var storedId = storageIdea.id;
+    var storedTitle = storageIdea.title;
+    var storedBody = storageIdea.body;
+    var storedIsStarred = storageIdea.isStarred;
+    ideas.unshift(new Idea(storedId, storedTitle, storedBody, storedIsStarred));
+  };
+  displayIdeas(ideas);
+};
+
+function displayIdeas(array) {
+  var starColorClass = "favorite";
+  var starColorSrc;
   ideaGrid.innerHTML = "";
-  for (var i = 0; i < ideas.length; i++) {
+  for (var i = 0; i < array.length; i++) {
+    if (array[i].isStarred === true) {
+      starColorSrc = "assets/star-active.svg";
+    } else {
+      starColorSrc = "assets/star.svg";
+    }
     ideaGrid.innerHTML += `
-         <section class="idea-example">
+         <section class="individual-idea">
             <div class="favorite-delete">
-                <button id=${ideas[i].id} class="favorite-idea favorite">
-        <img id=${ideas[i].id} class="star favorite" src="assets/star.svg" alt="Star Icon">
-          <img id=${ideas[i].id} class="star-active favorite hidden" src="assets/star-active.svg" alt="Active Star Icon">
-      </button>
-                <button id=${ideas[i].id} class="delete-idea x-button">
-        <img id=${ideas[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Icon">
-      </button>
+        <img id=${array[i].id} class=${starColorClass} src=${starColorSrc} alt="Favorite Idea">
+        <img id=${array[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Idea">
             </div>
             <div class="display-idea-area">
-                <h3 class="idea-title">${ideas[i].title}</h3>
-                <h5 class="idea-body">${ideas[i].body}</h5>
+                <h4 class="idea-title">${array[i].title}</h4>
+                <h3 class="idea-body">${array[i].body}</h3>
             </div>
             <div class="add-comment">
-                <button class="comment-button" name="comment">
-        <img class="comment" src="" alt="Add comment icon">
-      </button>
-                <label class="comment-label" for="comment">comment</label>
+        <img class="comment" src="assets/comment.svg" alt="Add comment icon">
+                <label class="comment-label" for="comment">Comment</label>
             </div>
         </section>
     `
@@ -83,13 +93,13 @@ function displayIdeas() {
 function clearInputs() {
   titleInput.value = "";
   bodyInput.value = "";
-  removeClickableHoverEffects(saveButton, saveButton);
+  removeClickableHoverEffects(saveButton);
 };
 
-function enableButton(event) {
+function enableSaveButton(event) {
   if (titleInput.value !== "" && bodyInput.value !== "") {
     saveButton.disabled = false;
-    addClickableHoverEffects(saveButton, saveButton);
+    addClickableHoverEffects(saveButton);
   } else {
     saveButton.disabled = true;
   };
@@ -97,55 +107,83 @@ function enableButton(event) {
 
 function deleteIdea(event) {
   remove();
-  displayIdeas();
+  gatherStarredIdeas();
+  displayCurrentIdeas();
 };
 
 function alterIdea(event) {
   if (event.target.classList.contains(`x-button`)) {
     deleteIdea();
   } else if (event.target.classList.contains(`favorite`)) {
-    toggleStar();
+    correctStarState();
   };
 };
 
-function remove() {
+function remove(idea) {
   for (var i = 0; i < ideas.length; i++) {
     if (event.target.id === `${ideas[i].id}`) {
+      ideas[i].deleteFromStorage();
       ideas.splice(i, 1);
     };
   };
 };
 
-
 function toggleStar() {
   var star = document.querySelectorAll('.star');
-  var starActive = document.querySelectorAll('.star-active');
   for (var i = 0; i < ideas.length; i++) {
-    if (event.target.id === `${ideas[i].id}` && ideas[i].star === false) {
-      ideas[i].star = true;
-      showHide(starActive[i], star[i]);
-    } else if (event.target.id === `${ideas[i].id}` && ideas[i].star === true) {
-      ideas[i].star = false;
-      showHide(star[i], starActive[i]);
+    if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === false) {
+      ideas[i].isStarred = true;
+    } else if (event.target.id === `${ideas[i].id}` && ideas[i].isStarred === true) {
+      ideas[i].isStarred = false;
     };
-  }
-}
-// function unfavoriteIdeas(event) {
-//   for (var i = 0; i < ideas.length; i++) {
-//     if (event.target.id === `favorite-idea`) {
-//       var star = document.querySelector('.star');
-//       var starActive = document.querySelector('.star-active');
-//       toggleHidden(starActive);
-//       toggleHidden(star);
-//     };
-//   };
-// }
+    ideas[i].saveToStorage();
+  };
+};
 
-//click the "Star" button on an idea card the button was a filled in star (favorited) the button should now be an outline of a star (not favorited) -> toggle between two images for button??
+function correctStarState() {
+  toggleStar();
+  gatherStarredIdeas();
+  displayCurrentIdeas();
+};
 
+function displayCurrentIdeas() {
+  if (showingFavs === false) {
+    displayIdeas(ideas);
+  } else if (showingFavs === true) {
+    displayIdeas(favIdeas);
+  };
+};
 
-//when I delete or favorite any card I should not see the page reload
+function gatherStarredIdeas() {
+  favIdeas = [];
+  for (var i = 0; i < ideas.length; i++) {
+    if (ideas[i].isStarred === true) {
+      favIdeas.push(ideas[i]);
+    };
+  };
+};
 
+function displayStarredOrAllIdeas() {
+  showingFavs = !showingFavs;
+  gatherStarredIdeas();
+  displayCurrentIdeas();
+  showFavsOrAllButtonText();
+};
 
+function showFavsOrAllButtonText() {
+  if (showingFavs === true) {
+    showStarredIdeas.innerText = `Show All Ideas`;
+  } else if (showingFavs === false) {
+    showStarredIdeas.innerText = `Show Starred Ideas`;
+  };
+};
 
-///
+function searchDisplayedIdeas() {
+  var ideasIncludedInSearch = [];
+  for (var i = 0; i < ideas.length; i++) {
+    if(ideas[i].title.includes(searchIdeas.value.toLowerCase()) || ideas[i].body.includes(searchIdeas.value.toLowerCase())) {
+      ideasIncludedInSearch.push(ideas[i]);
+    };
+  };
+  displayIdeas(ideasIncludedInSearch);
+};

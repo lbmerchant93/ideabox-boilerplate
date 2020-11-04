@@ -1,17 +1,19 @@
 class Idea {
-    constructor(title, body) {
-        this.id = Date.now();
+    constructor(id, title, body, isStarred) {
+        this.id = id || Date.now();
         this.title = title;
         this.body = body;
-        this.star = false;
+        this.isStarred = isStarred || false;
     }
-    saveToStorage() {
 
-    };
+    saveToStorage() {
+        var stringifiedCards = JSON.stringify(this);
+        localStorage.setItem(`${this.id}`, stringifiedCards);
+    }
 
     deleteFromStorage() {
-
-    };
+        localStorage.removeItem(`${this.id}`);
+    }
 
     updateIdea() {
 
