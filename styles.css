@@ -194,6 +194,7 @@ h5 {
   max-height: 1.5625em;
 }
 
+
 .display-idea-area {
   display: flex;
   flex-direction: column;
@@ -245,5 +246,3 @@ h5 {
   font-family: Open Sans, Light;
   color : #A9AAD2;
 }
-
-/*
