@@ -187,3 +187,4 @@ function searchDisplayedIdeas() {
   };
   displayIdeas(ideasIncludedInSearch);
 };
+
