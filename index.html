@@ -2,42 +2,40 @@
 <html lang="en">
 
 <head>
-    <title>IdeaBox</title>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./styles.css">
+  <title>IdeaBox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./styles.css">
 </head>
 
 <body class="grid-container">
-    <nav class="nav-bar">
-        <div class="title">
-            <h1><b>IdeaBox</b></h1>
-        </div>
-        <section class="filter-starred-ideas">
-            <h5>Filter Starred Ideas</h5>
-            <button class="show-starred-ideas">Show Starred Ideas</button>
-        </section>
-        <section>
-        </section>
-    </nav>
-    <main class="form">
-        <label class="title-label" for="title-input"><b>Title</b></label>
-        <input type="text" name="title-input" class="title-input" />
-        <label class="body-label" for="body-input"><b>Body</b></label>
-        <input type="text" name="body-input" class="body-input" />
-        <button class="save-button disabled" disabled><b>Save</b></button>
-        <div class="search">
-            <button class="submit-search">
-        <img src="assets/search.svg" alt="Search Icon">
-      </button>
-            <input type="text" name="search-ideas" class="search-ideas" placeholder="Search ideas" />
-        </div>
-    </main>
-    <div class="ideas">
-        <article class="idea-grid">
-        </article>
+  <nav class="nav-bar">
+    <div class="title">
+      <h1><b>IdeaBox</b></h1>
     </div>
-    <script src="./src/idea.js"></script>
-    <script src="./src/main.js"></script>
+    <section class="filter-starred-ideas">
+      <h5>Filter Starred Ideas</h5>
+      <button class="show-starred-ideas">Show Starred Ideas</button>
+    </section>
+    <section>
+    </section>
+  </nav>
+  <main class="form">
+    <label class="title-label" for="title-input"><b>Title</b></label>
+    <input type="text" name="title-input" class="title-input" />
+    <label class="body-label" for="body-input"><b>Body</b></label>
+    <input type="text" name="body-input" class="body-input" />
+    <button class="save-button disabled" disabled><b>Save</b></button>
+    <div class="search">
+      <img class="submit-search" src="assets/search.svg" alt="Search Icon">
+      <input type="text" name="search-ideas" class="search-ideas" placeholder="Search ideas" />
+    </div>
+  </main>
+  <div class="ideas">
+    <article class="idea-grid">
+    </article>
+  </div>
+  <script src="./src/idea.js"></script>
+  <script src="./src/main.js"></script>
 </body>
 
 </html>

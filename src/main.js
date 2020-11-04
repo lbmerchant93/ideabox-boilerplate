@@ -3,6 +3,7 @@ var ideas = [];
 var currentIdea;
 var favIdeas = [];
 var showingFavs = false;
+var ideasIncludedInSearch;
 
 
 // querySelectors:
@@ -11,6 +12,7 @@ var titleInput = document.querySelector('.title-input');
 var bodyInput = document.querySelector('.body-input');
 var ideaGrid = document.querySelector('.idea-grid');
 var showStarredIdeas = document.querySelector('.show-starred-ideas');
+var searchIdeas = document.querySelector('.search-ideas');
 
 
 // addEventListeners:
@@ -20,6 +22,7 @@ titleInput.addEventListener('keyup', enableSaveButton);
 bodyInput.addEventListener('keyup', enableSaveButton);
 ideaGrid.addEventListener('click', alterIdea);
 showStarredIdeas.addEventListener('click', displayStarredOrAllIdeas);
+searchIdeas.addEventListener('keyup', searchDisplayedIdeas);
 
 
 
@@ -79,11 +82,11 @@ function displayIdeas(array) {
          <section class="individual-idea">
             <div class="favorite-delete">
         <img id=${array[i].id} class=${starColorClass} src=${starColorSrc} alt="Favorite Idea">
-        <img id=${array[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Icon">
+        <img id=${array[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Idea">
             </div>
             <div class="display-idea-area">
-                <h3 class="idea-title">${array[i].title}</h3>
-                <h5 class="idea-body">${array[i].body}</h5>
+                <h4 class="idea-title">${array[i].title}</h3>
+                <h3 class="idea-body">${array[i].body}</h5>
             </div>
             <div class="add-comment">
         <img class="comment" src="assets/comment.svg" alt="Add comment icon">
@@ -171,10 +174,9 @@ function gatherStarredIdeas() {
 };
 
 function displayStarredOrAllIdeas() {
-  showingFavs = !showingFavs
+  showingFavs = !showingFavs;
   gatherStarredIdeas();
   displayCurrentIdeas();
-
   if (showingFavs === true) {
     showStarredIdeas.innerText = `Show All Ideas`;
   } else if (showingFavs === false) {
@@ -182,7 +184,14 @@ function displayStarredOrAllIdeas() {
   };
 };
 
-
+function searchDisplayedIdeas() {
+  if(searchIdeas.value.length > 0) {
+    ideasIncludedInSearch = ideas.filter(idea => idea.title.includes(searchIdeas.value) || idea.body.includes(searchIdeas.value));
+    displayIdeas(ideasIncludedInSearch);
+  } else {
+    displayCurrentIdeas();
+  };
+};
 
 
 
