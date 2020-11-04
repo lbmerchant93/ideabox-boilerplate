@@ -30,7 +30,7 @@ nav {
 }
 
 h5 {
-  font-weight: 500;
+  font-weight: 575;
 }
 
 .filter-starred-ideas {
@@ -49,6 +49,8 @@ h5 {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   width: 15em;
+  font-family: Open Sans, Bold;
+  font-weight: 575;
 }
 
 /*For input form field */
@@ -97,6 +99,7 @@ h5 {
 
 .save-button {
   background-color: #1F1F3D;
+  font-size: 1em;
   border-radius: 0.2em;
   color: #E9E9F3;
   margin-top: 1.5em;
@@ -123,18 +126,25 @@ h5 {
   display: flex;
 }
 
-.submit-search {
+.search-image {
   background-color: #1F1F3D;
+  display: flex;
+  justify-content: center;
+  flex-basis: 10%;
   max-width: 2em;
   max-height: 2em;
-  margin-bottom: 1em;
-  flex-basis: 10%;
+}
+
+.submit-search {
+  background-color: #1F1F3D;
+  align-self: center;
+  max-width: 1.15em;
+  max-height: 1.15em;
 }
 
 .search-ideas {
-  color: #A9AAD2
-  margin-bottom: 1em;
-  max-height: 2em;
+  color: #A9AAD2 margin-bottom: 1em;
+  max-height: 2.05em;
   flex-basis: 90%;
 }
 
@@ -191,6 +201,7 @@ h5 {
 
 .idea-title,
 .idea-body {
+  white-space: pre-wrap;
   grid-row: 2 / 3;
   grid-column: 1 / 2;
 }
@@ -198,15 +209,12 @@ h5 {
 .idea-title {
   padding-left: 0.5em;
   height: 40%;
-  width: 100%;
 }
 
 .idea-body {
-    padding-left: 0.5em;
+  padding-left: 0.5em;
   font-weight: 300;
   height: 60%;
-  width: 100%;
-  overflow: auto;
 }
 
 .comment-label,
@@ -216,6 +224,7 @@ h5 {
   color: #ffffff;
   background-color: #5356A4;
   max-height: 1.875em;
+  font-weight: bold;
 }
 
 .add-comment {
@@ -230,6 +239,11 @@ h5 {
 
 .comment {
   flex-basis: 10%;
+}
+
+.styled {
+  font-family: Open Sans, Light;
+  color : #A9AAD2;
 }
 
 /*

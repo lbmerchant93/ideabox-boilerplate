@@ -3,8 +3,6 @@ var ideas = [];
 var currentIdea;
 var favIdeas = [];
 var showingFavs = false;
-var ideasIncludedInSearch;
-
 
 // querySelectors:
 var saveButton = document.querySelector('.save-button');
@@ -13,7 +11,6 @@ var bodyInput = document.querySelector('.body-input');
 var ideaGrid = document.querySelector('.idea-grid');
 var showStarredIdeas = document.querySelector('.show-starred-ideas');
 var searchIdeas = document.querySelector('.search-ideas');
-
 
 // addEventListeners:
 window.addEventListener('load', showIdeas);
@@ -24,16 +21,14 @@ ideaGrid.addEventListener('click', alterIdea);
 showStarredIdeas.addEventListener('click', displayStarredOrAllIdeas);
 searchIdeas.addEventListener('keyup', searchDisplayedIdeas);
 
-
-
 // event handlers and funcitons:
-function addClickableHoverEffects(enable, addHoverEffects) {
+function addClickableHoverEffects(enable) {
   enable.classList.remove('disabled');
-  addHoverEffects.classList.add('hover-effects');
+  enable.classList.add('hover-effects');
 };
 
-function removeClickableHoverEffects(removeHoverEffects, disable) {
-  removeHoverEffects.classList.remove('hover-effects');
+function removeClickableHoverEffects(disable) {
+  disable.classList.remove('hover-effects');
   disable.classList.add('disabled');
 };
 
@@ -53,7 +48,6 @@ function saveIdea() {
   currentIdea.saveToStorage();
 };
 
-
 function showIdeas() {
   for (var i = 0; i < localStorage.length; i++) {
     var key = localStorage.key(i);
@@ -66,7 +60,6 @@ function showIdeas() {
   };
   displayIdeas(ideas);
 };
-
 
 function displayIdeas(array) {
   var starColorClass = "favorite";
@@ -85,29 +78,28 @@ function displayIdeas(array) {
         <img id=${array[i].id} class="delete x-button" src="assets/delete.svg" alt="Delete Idea">
             </div>
             <div class="display-idea-area">
-                <h4 class="idea-title">${array[i].title}</h3>
-                <h3 class="idea-body">${array[i].body}</h5>
+                <h4 class="idea-title">${array[i].title}</h4>
+                <h3 class="idea-body">${array[i].body}</h3>
             </div>
             <div class="add-comment">
         <img class="comment" src="assets/comment.svg" alt="Add comment icon">
-                <label class="comment-label" for="comment">comment</label>
+                <label class="comment-label" for="comment">Comment</label>
             </div>
         </section>
     `
   };
 };
 
-
 function clearInputs() {
   titleInput.value = "";
   bodyInput.value = "";
-  removeClickableHoverEffects(saveButton, saveButton);
+  removeClickableHoverEffects(saveButton);
 };
 
 function enableSaveButton(event) {
   if (titleInput.value !== "" && bodyInput.value !== "") {
     saveButton.disabled = false;
-    addClickableHoverEffects(saveButton, saveButton);
+    addClickableHoverEffects(saveButton);
   } else {
     saveButton.disabled = true;
   };
@@ -136,7 +128,6 @@ function remove(idea) {
   };
 };
 
-
 function toggleStar() {
   var star = document.querySelectorAll('.star');
   for (var i = 0; i < ideas.length; i++) {
@@ -163,7 +154,6 @@ function displayCurrentIdeas() {
   };
 };
 
-
 function gatherStarredIdeas() {
   favIdeas = [];
   for (var i = 0; i < ideas.length; i++) {
@@ -177,6 +167,10 @@ function displayStarredOrAllIdeas() {
   showingFavs = !showingFavs;
   gatherStarredIdeas();
   displayCurrentIdeas();
+  showFavsOrAllButtonText();
+};
+
+function showFavsOrAllButtonText() {
   if (showingFavs === true) {
     showStarredIdeas.innerText = `Show All Ideas`;
   } else if (showingFavs === false) {
@@ -185,16 +179,11 @@ function displayStarredOrAllIdeas() {
 };
 
 function searchDisplayedIdeas() {
-  if(searchIdeas.value.length > 0) {
-    ideasIncludedInSearch = ideas.filter(idea => idea.title.includes(searchIdeas.value) || idea.body.includes(searchIdeas.value));
-    displayIdeas(ideasIncludedInSearch);
-  } else {
-    displayCurrentIdeas();
+  var ideasIncludedInSearch = [];
+  for (var i = 0; i < ideas.length; i++) {
+    if(ideas[i].title.includes(searchIdeas.value.toLowerCase()) || ideas[i].body.includes(searchIdeas.value.toLowerCase())) {
+      ideasIncludedInSearch.push(ideas[i]);
+    };
   };
+  displayIdeas(ideasIncludedInSearch);
 };
-
-
-
-
-
-////
