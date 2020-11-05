@@ -1,6 +1,6 @@
 #  Idea Box  
 > A [Front-End Project](https://github.com/lbmerchant93/ideabox-boilerplate) by [Lucas Merchant](https://github.com/lbmerchant93) and [Ben Prat ](https://github.com/benjaminprat) 
-> Project Manager [Kayla Wood ](https://github.com/kaylaewood) 
+> * Project Manager [Kayla Wood ](https://github.com/kaylaewood) 
 
 ## Contents
 1. [Overview and Goals](#overview)
