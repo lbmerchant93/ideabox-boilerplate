@@ -31,6 +31,8 @@ nav {
 
 h5 {
   font-weight: 575;
+  color: #BFBFDD;
+  font-size: .80em;
 }
 
 .filter-starred-ideas {
@@ -50,7 +52,9 @@ h5 {
   padding-bottom: 0.5em;
   width: 15em;
   font-family: Open Sans, Bold;
-  font-weight: 575;
+  font-weight: 650;
+  word-spacing: .20em;
+  font-size: 1em;
 }
 
 /*For input form field */
@@ -80,6 +84,7 @@ h5 {
   align-self: flex-end;
   max-height: auto;
   margin-bottom: 0.35em;
+  color: #1F1F3D;
 }
 
 .title-label {
@@ -90,7 +95,7 @@ h5 {
 .body-input,
 .search-ideas {
   border-radius: 0.2em;
-  border: 0.1em solid #1F1F3D;
+  border: 0.2em solid #5356A4;
 }
 
 .title-input {
@@ -98,7 +103,7 @@ h5 {
 }
 
 .save-button {
-  background-color: #1F1F3D;
+  background-color: #353567;
   font-size: 1em;
   border-radius: 0.2em;
   color: #E9E9F3;
@@ -107,6 +112,8 @@ h5 {
   min-width: 100%;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
+  font-family: Open Sans;
+  border: 0.15em solid #5356A4;
 }
 
 .hover-effects:hover {
@@ -127,7 +134,7 @@ h5 {
 }
 
 .search-image {
-  background-color: #1F1F3D;
+  background-color: #353567;
   display: flex;
   justify-content: center;
   flex-basis: 10%;
@@ -242,7 +249,10 @@ h5 {
   flex-basis: 10%;
 }
 
-.styled {
+input::placeholder {
+  color: #5356A4;
   font-family: Open Sans, Light;
-  color : #A9AAD2;
+  font-weight: 500;
+  font-size: 1.05em;
+
 }
