@@ -41,7 +41,7 @@ None. This project was developed on macOS Catalina 10.15.6 and tested in Chrome 
 
  ## Technologies
 
-  - HTMLs
+  - HTML
   - CSS
   - JavaScript
   - JSON (data interchange format)
