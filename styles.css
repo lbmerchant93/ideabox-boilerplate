@@ -29,7 +29,7 @@ nav {
   padding-left: 1em;
 }
 
-h5 {
+h2 {
   font-weight: 575;
   color: #BFBFDD;
   font-size: .80em;
@@ -255,4 +255,8 @@ input::placeholder {
   font-weight: 500;
   font-size: 1.05em;
 
+}
+
+element.style {
+    font-size: .85em;
 }
