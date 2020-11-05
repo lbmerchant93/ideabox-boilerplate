@@ -28,7 +28,7 @@ Learning goals, summarized below, are taken from the  project spec.
   -  SRP (Single Responsibility Principle) 
 ```
 
- >[Back to Top](#idea-box)
+
 
 
 
