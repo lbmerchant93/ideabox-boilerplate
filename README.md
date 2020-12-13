@@ -49,7 +49,7 @@ None. This project was developed on macOS Catalina 10.15.6 and tested in Chrome 
   -  [GitHub Pages site](https://lbmerchant93.github.io/ideabox-boilerplate/)
 
 
- >[Back to Top](#idea-box)
+ 
 
 ---
 ## Features
@@ -62,7 +62,7 @@ None. This project was developed on macOS Catalina 10.15.6 and tested in Chrome 
 + [Show Starred Ideas](#show-starred-ideas)
 + [Search Ideas](#search-ideas)
 
->[Back to Top](#idea-box)
+
 
 
 ## Desktop Layout
@@ -154,7 +154,6 @@ These ideas will persist through user sessions.
 
 + Understanding and implementing client-side data persistence using localStorage and JSON.
 
->[Back to Top](#idea-box)
 ---
  ## Wins
  
